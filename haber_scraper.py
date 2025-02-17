@@ -69,9 +69,3 @@ class HaberScraper:
                 all_news.append(content)
 
         return all_news
-    
-scraper = HaberScraper()
-news = scraper.get_all_news()
-for new in news:
-    print(new)
-    print("\n")
