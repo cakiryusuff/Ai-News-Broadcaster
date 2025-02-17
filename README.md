@@ -1,5 +1,7 @@
 # AI-Powered News to Podcast Automation
-![](https://github.com/cakiryusuff/Ai-News-Broadcaster/video/video.gif)
+
+![](https://github.com/cakiryusuff/Ai-News-Broadcaster/blob/main/video/video.gif)
+
 ## Overview
 
 This project automates the process of extracting daily news from __ShiftDelete.net__, summarizing the content using __Pydantic-Ai__, converting the summaries into speech with __Eleven Labs__, and publishing the generated audio as a podcast on Spotify using __Playwright__.
