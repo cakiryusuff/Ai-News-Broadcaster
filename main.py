@@ -1,6 +1,6 @@
 import datetime
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent
+from pydantic_ai import Agent, ModelRetry
 from pydantic_ai.models.openai import OpenAIModel
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
@@ -30,10 +30,11 @@ class NewsFetcher:
                 "These summaries will be used for a podcast and YouTube videos, so they should be engaging and well-structured."
                 "Separate each news item with a new line for better readability."
                 "Generate a general title and description for the podcast based on the summarized news."
-                "The title should be short, clear, and include today's date (use the get_date tool to retrieve it)."
+                "The title should be short, clear, and include today's date (use the get_date tool to retrieve it, e.g. 'title - date')."
                 "In the summary, numbers should be written in words (e.g., 1,499 → bin dört yüz doksan dokuz), except for the title and description."
                 "To get today's news, use the get_news tool."
             ),
+            retries=2
         )
         
         @self.agent.tool_plain
@@ -41,6 +42,12 @@ class NewsFetcher:
         
         @self.agent.tool_plain
         def get_news() -> list[str]: return self.scraper.get_all_news()
+        
+        @self.agent.result_validator
+        def result_validator(data: ResearchResults):
+            if datetime.datetime.now().strftime('%d.%m.%Y') not in data.title:
+                raise ModelRetry("Title date is written in words. Write it in numbers. (e.g., 1.02.2022)")
+            return data
 
     def get_summary(self) -> ResearchResults:
         result = self.agent.run_sync("Give me today's news")
