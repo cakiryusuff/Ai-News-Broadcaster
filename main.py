@@ -117,13 +117,15 @@ def run():
 
     news_fetcher = NewsFetcher()
     summary = news_fetcher.get_summary()
-    print(summary)
+    print("*"*10,"Summary getted","*"*10)
 
     tts = TextToSpeech()
     tts.convert_text(summary.summary, output_file=output_file)
+    print("*"*10,"Text to speech done","*"*10)
 
     uploader = PodcastUploader(email, password, output_file, summary.title, summary.description)
     uploader.upload_podcast()
+    print("*"*10,"Podcast uploaded","*"*10)
 
 
 if __name__ == "__main__":
