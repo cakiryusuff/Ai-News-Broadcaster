@@ -1,6 +1,6 @@
 # AI-Powered News to Podcast Automation
 
-![](https://github.com/cakiryusuff/Ai-News-Broadcaster/blob/main/video/video.gif)
+![](video/video.gif)
 
 ## Overview
 
